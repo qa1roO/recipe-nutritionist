@@ -2,6 +2,7 @@
 
 from recipes import *
 
+import numpy as np
 import pandas as pd
 import joblib
 import sys
@@ -63,7 +64,7 @@ def base_nutritionist(ingredients_list, all_ingredients, source_df, similar_reci
 	predict_vector = pd.DataFrame({f: [0] for f in all_ingredients})
 	predict_vector[ingredients_list] = 1
 	
-	predict = model.predict(predict_vector)
+	predict = np.ravel(model.predict(predict_vector))
 	nutr = NutritionFacts(ingredients_list)
 	similar_recipes = choose_similar_recipes(source_df, similar_recipes_df, ingredients_list).drop_duplicates()
 

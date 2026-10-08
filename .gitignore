@@ -58,3 +58,8 @@ dkms.conf
 build/
 .pytest_cache/
 .ipynb_checkpoints/
+
+# MLflow
+mlflow.db
+mlruns/
+mlartifacts/

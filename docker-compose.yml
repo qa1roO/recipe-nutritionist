@@ -1,0 +1,29 @@
+# API on the bundled model:  docker compose up --build api
+# MLflow tracking server:    docker compose --profile mlflow up -d mlflow
+# API on the registry model: MODEL_URI=models:/recipe-rating-classifier@champion docker compose up --build api
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      MODEL_URI: ${MODEL_URI:-}
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+    restart: on-failure
+
+  mlflow:
+    profiles: ["mlflow"]
+    image: ghcr.io/mlflow/mlflow:v3.17.0
+    command: >
+      mlflow server
+      --backend-store-uri sqlite:////mlflow/mlflow.db
+      --artifacts-destination /mlflow/artifacts
+      --host 0.0.0.0 --port 5000
+      --allowed-hosts mlflow:5000,localhost:5000,127.0.0.1:5000
+    ports:
+      - "5000:5000"
+    volumes:
+      - mlflow-data:/mlflow
+
+volumes:
+  mlflow-data:

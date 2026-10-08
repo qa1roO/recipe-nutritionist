@@ -1,0 +1,11 @@
+.git
+.venv
+**/__pycache__
+*.egg-info
+mlflow.db
+mlruns/
+mlartifacts/
+src/recipes.ipynb
+src/nutrients_facts.csv
+datasets/epi_r.csv
+datasets/similar_recipes.csv
